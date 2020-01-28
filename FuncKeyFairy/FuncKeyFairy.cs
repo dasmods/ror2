@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BepInEx;
 using RoR2;
 using UnityEngine;
@@ -9,7 +10,6 @@ namespace Dasmods
     [BepInPlugin("com.dasmods.funckeyfairy", "FuncKeyFairy", "1.0")]
     public class FuncKeyFairy : BaseUnityPlugin
     {
-        private GameObject player;
         private static void dropPickup(PickupIndex pickupIndex, GameObject obj)
         {
             Transform transform = obj.transform;
@@ -18,29 +18,26 @@ namespace Dasmods
             PickupDropletController.CreatePickupDroplet(pickupIndex, position, velocity);
         }
 
-        private static void dropRandPickup(System.Collections.Generic.List<PickupIndex> dropList, GameObject obj)
+        private static void dropRandPickup(List<PickupIndex> dropList, GameObject obj)
         {
             PickupIndex pickupIndex = Util.pickRand<PickupIndex>(dropList);
             dropPickup(pickupIndex, obj);
         }
 
-        public void Awake()
-        {
-            this.player = PlayerCharacterMasterController.instances[0].master.GetBodyObject();
-        }
         public void Update()
         {
+            GameObject player = PlayerCharacterMasterController.instances[0].master.GetBodyObject();
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                dropRandPickup(Run.instance.availableTier1DropList, this.player);
+                dropRandPickup(Run.instance.availableTier1DropList, player);
             }
             else if (Input.GetKeyDown(KeyCode.F3))
             {
-                dropRandPickup(Run.instance.availableTier2DropList, this.player);
+                dropRandPickup(Run.instance.availableTier2DropList, player);
             }
             else if (Input.GetKeyDown(KeyCode.F4))
             {
-                dropRandPickup(Run.instance.availableTier3DropList, this.player);
+                dropRandPickup(Run.instance.availableTier3DropList, player);
             }
         }
     }
