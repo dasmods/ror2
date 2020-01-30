@@ -3,7 +3,13 @@ var target = Argument("target", "Build");
 Task("Cleanup")
 	.Does(() =>
 {
-	Information("Cleanup");
+	Information("Removing old binaries");
+	CreateDirectory("./bin");
+	CleanDirectory("./bin");
+
+	Information("Cleaning up old build objects");
+	CleanDirectories(GetDirectories("Mods/**/bin/"));
+	CleanDirectories(GetDirectories("Mods/**/obj/"));
 });
 
 Task("Build")
