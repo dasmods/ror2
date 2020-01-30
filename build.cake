@@ -13,4 +13,11 @@ Task("Build")
 	Information("Building: {0}", file);
 });
 
+Task("Release")
+	.IsDependentOn("Build")
+	.Does(() =>
+{
+	Information("Release");
+});
+
 RunTarget(target);
