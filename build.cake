@@ -1,9 +1,9 @@
-var target = Argument("target", "Default");
+var target = Argument("target", "Build");
 
-Task("Default")
-  .Does(() =>
+Task("Build")
+	.DoesForEach(GetFiles("Mods/**/*.sln"), (file) =>
 {
-  Information("Hello World!");
+	Information("Building: {0}", file);
 });
 
 RunTarget(target);
