@@ -1,6 +1,6 @@
-# ror2-dasmods
-Mods for Risk of Rain 2
+# ror2
+Mods for [Risk of Rain 2](https://store.steampowered.com/app/632360/Risk_of_Rain_2/)
 
 ## Mods
 
-[FuncKeyFairy](https://github.com/jaredjj3/ror2-dasmods/raw/master/FuncKeyFairy/FuncKeyFairy.dll) - Drops items when pressing F2, F3, or F4.
+[FuncKeyFairy](https://github.com/dasmods/ror2/tree/master/FuncKeyFairy) - Drops items when pressing F2, F3, or F4.
