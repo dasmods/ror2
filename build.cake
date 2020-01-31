@@ -4,13 +4,14 @@
 #addin nuget:?package=Cake.Json&version=4.0.0
 #addin nuget:?package=Cake.Http&version=0.7.0
 
-
 var target = Argument("target", "Pack");
+var config = Argument("config", "ror2.config");
 
 var buildVersion = FindRegexMatchInFile(File("AssemblyInfo.cs"), "[0-9]+\\.[0-9]+\\.[0-9]+", System.Text.RegularExpressions.RegexOptions.None);
 var binDir = Directory("bin");
 var distDir = binDir + Directory("dist");
 var currentCommit = RunGit("rev-parse HEAD");
+var ror2ConfigFile = File("ror2.config.json");
 
 string RunGit(string command, string separator = "") 
 {
@@ -74,6 +75,24 @@ Task("Pack")
 {
 	Information("Packing ror2");
 	ZipCompress(distDir, File($"{binDir}/dist-ror2-{buildVersion}.zip"));
+});
+
+Task("InitConfig")
+	.Does(() =>
+{
+	if (!FileExists(ror2ConfigFile))
+	{
+		Information($"Creating: {ror2ConfigFile}");
+		FileWriteText(File(ror2ConfigFile),
+			SerializeJsonPretty(new Dictionary<string, object> {
+				["ror2Path"] = "",
+				["enabledMods"] = new Dictionary<string, string>[] {}
+			})
+		);
+	} else
+	{
+		Information($"Already exists: {ror2ConfigFile}");
+	}
 });
 
 RunTarget(target);
