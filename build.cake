@@ -4,12 +4,17 @@
 #addin nuget:?package=Cake.Json&version=4.0.0
 #addin nuget:?package=Cake.Http&version=0.7.0
 
-
+// args
 var target = Argument("target", "Pack");
 
+// config
+var ror2ConfigFile = File("ror2.config.json");
+
+// misc
 var buildVersion = FindRegexMatchInFile(File("AssemblyInfo.cs"), "[0-9]+\\.[0-9]+\\.[0-9]+", System.Text.RegularExpressions.RegexOptions.None);
 var binDir = Directory("bin");
 var distDir = binDir + Directory("dist");
+var enabledModsDir = Directory("dasmods");
 var currentCommit = RunGit("rev-parse HEAD");
 
 string RunGit(string command, string separator = "") 
@@ -74,6 +79,57 @@ Task("Pack")
 {
 	Information("Packing ror2");
 	ZipCompress(distDir, File($"{binDir}/dist-ror2-{buildVersion}.zip"));
+});
+
+Task("InitConfig")
+	.Does(() =>
+{
+	if (!FileExists(ror2ConfigFile))
+	{
+		Information($"Creating: {ror2ConfigFile}");
+		FileWriteText(File(ror2ConfigFile),
+			SerializeJsonPretty(new Dictionary<string, object> {
+				["ror2Dir"] = "",
+				["enabledMods"] = new Dictionary<string, string>[] {}
+			})
+		);
+	} else
+	{
+		Information($"Already exists: {ror2ConfigFile}");
+	}
+});
+
+Task("InstallEnabledMods")
+	.IsDependentOn("InitConfig")
+	.IsDependentOn("Pack")
+	.Does(() =>
+{
+	Information($"Parsing {ror2ConfigFile}\n");
+	var config = ParseJsonFromFile(ror2ConfigFile);
+	var ror2Dir = (string)config["ror2Dir"];
+	var enabledMods = ((JArray)config["enabledMods"]).Select(enabledMod => (string)enabledMod).ToList();
+	Information($"ror2Dir: {ror2Dir}");
+	Information($"enabledMods ({enabledMods.Count}): {string.Join(",", enabledMods.ToArray())}\n");
+
+	var src = distDir; // where the mods are built
+	var dst = Directory($"{ror2Dir}/BepInEx/plugins/") + enabledModsDir;
+	CreateDirectory(dst);
+	CleanDirectory(dst);
+	enabledMods.ForEach((modName) =>
+	{
+		var modFile = File($"{modName}.dll");
+		Information("Installing {0}", modName);
+		CopyFile(src + modFile, dst + modFile);
+	});
+});
+
+Task("Play")
+	.IsDependentOn("InstallEnabledMods")
+	.Does(() =>
+{
+	var config = ParseJsonFromFile(ror2ConfigFile);
+	var ror2Dir = (string)config["ror2Dir"];
+	StartProcess($"{ror2Dir}/Risk of Rain 2");
 });
 
 RunTarget(target);

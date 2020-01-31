@@ -342,3 +342,6 @@ healthchecksdb
 
 # cake tools
 tools
+
+# ror2 stuff
+ror2.config.json
