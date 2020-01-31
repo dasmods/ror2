@@ -7,7 +7,7 @@
 
 var target = Argument("target", "Pack");
 
-var buildVersion = FindRegexMatchInFile(File("AssemblyInfo.cs"), "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+", System.Text.RegularExpressions.RegexOptions.None);
+var buildVersion = FindRegexMatchInFile(File("AssemblyInfo.cs"), "[0-9]+\\.[0-9]+\\.[0-9]+", System.Text.RegularExpressions.RegexOptions.None);
 var binDir = Directory("bin");
 var distDir = binDir + Directory("dist");
 var currentCommit = RunGit("rev-parse HEAD");
