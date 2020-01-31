@@ -22,7 +22,7 @@ Then, initialize a ror2.config.json file (ignored by git) by running:
 
 Then, open ror2.config.json and enter your specific config settings:
 
-_example ror2.config.json (use "/" as file separators not "\")_
+_example ror2.config.json (use "/" as file separators not "\\")_
 
 ```json
 {
