@@ -4,7 +4,7 @@ using BepInEx;
 using RoR2;
 using UnityEngine;
 
-namespace Dasmods
+namespace FuncKeyFairy
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInPlugin("com.dasmods.funckeyfairy", "FuncKeyFairy", "1.0")]
