@@ -17,7 +17,7 @@ First, navigate to the project root in Powershell.
 Then, initialize a ror2.config.json file (ignored by git) by running:
 
 ```
-.\build.ps1 -Target InitConfig
+.\build.ps1 -target=InitConfig
 ```
 
 Then, open ror2.config.json and enter your specific config settings:
@@ -43,8 +43,14 @@ The built files will be in `<YOUR_PROJECT_ROOT>/bin`
 
 ### Installing and Playing
 
-To create a build, install the `enabledMods` (from ror2.config.json), and play RoR2, ensure Steam is running and run the command:
+To create a build and play with it in RoR2, **ensure Steam is running** and run the command:
 
 ```
-.\build.ps1 -Target Play
+.\build.ps1 -target=Play
+```
+
+To only build the enabled mods:
+
+```
+.\build.ps1 -target=Play -build_enabled_only=true
 ```
