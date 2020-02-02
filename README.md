@@ -5,6 +5,7 @@ Mods for [Risk of Rain 2](https://store.steampowered.com/app/632360/Risk_of_Rain
 ## Mods
 
 [FuncKeyFairy](https://github.com/dasmods/ror2/tree/master/Mods/FuncKeyFairy) - Drops items when pressing F2, F3, or F4.
+[HealBois](https://github.com/dasmods/ror2/tree/master/Mods/HealBois) - Gives Engineer's mines a heal aura that decays, then explodes when finished.
 
 ## Workflow
 
