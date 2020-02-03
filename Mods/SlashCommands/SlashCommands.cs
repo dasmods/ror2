@@ -13,6 +13,8 @@ namespace SlashCommands
         {
             On.RoR2.Chat.UserChatMessage.OnProcessed += (onProcessed, userChatMessage) =>
             {
+                onProcessed(userChatMessage);
+
                 if (CommandRunner.IsCommandStr(userChatMessage.text))
                 {
                     try
@@ -25,8 +27,6 @@ namespace SlashCommands
                         Debug.LogError(exception);
                     }
                 }
-
-                onProcessed(userChatMessage);
             };
         }
     }
