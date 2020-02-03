@@ -1,7 +1,5 @@
-﻿using System;
-using BepInEx;
+﻿using BepInEx;
 using RoR2;
-using UnityEngine;
 
 namespace SlashCommands
 {
@@ -9,7 +7,6 @@ namespace SlashCommands
     [BepInPlugin("com.dasmods.slashcommands", "SlashCommands", "1.0")]
     public class SlashCommands : BaseUnityPlugin
     {
-
         public void Awake()
         {
             On.RoR2.Chat.UserChatMessage.OnProcessed += (onProcessed, userChatMessage) =>
