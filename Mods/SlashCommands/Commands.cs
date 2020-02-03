@@ -29,12 +29,12 @@ namespace SlashCommands
 
     public interface ICommand
     {
-        void Run(params string[] args);
+        void Run(string[] args);
     }
 
     public class Echo : ICommand
     {
-        public void Run(params string[] args)
+        public void Run(string[] args)
         {
             Chat.AddMessage(string.Join(" ", args));
         }
@@ -46,7 +46,7 @@ namespace SlashCommands
         private static uint IDLE_ACTIVATION_STATE = 0;
         private static uint IDLE_TO_CHARGING_ACTIVATION_STATE = 1;
 
-        public void Run(params string[] args)
+        public void Run(string[] args)
         {
             TeleporterInteraction teleporterInteraction = TeleporterInteraction.instance;
 
