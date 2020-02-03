@@ -11,6 +11,7 @@ namespace HealBois
         private static float INITIAL_RADIUS = 10f;
         private static float MAX_AGE = 10f;
         private static float DECAY_RATE = INITIAL_RADIUS / MAX_AGE;
+
         private static GameObject CreateMushroomWard(Vector3 position)
         {
             // create mushroom ward visuals
