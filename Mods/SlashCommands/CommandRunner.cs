@@ -39,8 +39,9 @@ namespace SlashCommands
         {
             string[] tokens = rawString.Remove(0, 1).Split(' ');
             string cmdName = tokens[0];
+            
             List<string> args = new List<string>();
-
+            // start at 1 because tokens[0] is the cmdName
             for (int ndx = 1; ndx < tokens.Length; ndx++)
             {
                 args.Add(tokens[ndx]);
