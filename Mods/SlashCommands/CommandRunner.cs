@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using RoR2;
 using UnityEngine;
 
@@ -8,13 +7,6 @@ namespace SlashCommands
 {
     public class CommandRunner
     {
-        // command names must not have any spaces
-        private static Dictionary<string, ICommand> COMMANDS_BY_NAME = new Dictionary<string, ICommand>
-        {
-            ["echo"] = new Echo(),
-            ["hittele"] = new ActivateTele()
-        };
-
         public static void ParseAndRun(string rawString)
         {
             // parse
@@ -23,13 +15,13 @@ namespace SlashCommands
             string[] args = parsed.Item2;
 
             // validate
-            if (!COMMANDS_BY_NAME.ContainsKey(cmdName))
+            if (!Commands.COMMANDS.ContainsKey(cmdName))
             {
                 OnInvalidCmd(cmdName, args);
             }
 
             // run
-            ICommand cmd = COMMANDS_BY_NAME[cmdName];
+            ICommand cmd = Commands.COMMANDS[cmdName];
             Debug.LogWarning($"Running cmd {cmdName} with args: {args}");
 
             try
@@ -61,39 +53,6 @@ namespace SlashCommands
             }
 
             return (cmdName, args.ToArray());
-        }
-    }
-
-    public interface ICommand
-    {
-        void Run(params string[] args);
-    }
-
-    public class Echo : ICommand
-    {
-        public void Run(params string[] args)
-        {
-            string argsStr = string.Join(" ", args);
-            Chat.AddMessage($"echo: {argsStr}");
-        }
-    }
-
-    public class ActivateTele : ICommand
-    {
-        // from private enum RoR2.TeleporterInteraction.ActivationState
-        private static uint IDLE_ACTIVATION_STATE = 0;
-        private static uint IDLE_TO_CHARGING_ACTIVATION_STATE = 1;
-
-        public void Run(params string[] args)
-        {
-            TeleporterInteraction teleporterInteraction = TeleporterInteraction.instance;
-               
-            if (teleporterInteraction.NetworkactivationStateInternal != IDLE_ACTIVATION_STATE)
-            {
-                throw new InvalidOperationException("teleporter must be idle to force tele");
-            }
-
-            teleporterInteraction.NetworkactivationStateInternal = IDLE_TO_CHARGING_ACTIVATION_STATE;
         }
     }
 }
