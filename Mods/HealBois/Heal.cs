@@ -47,9 +47,24 @@ namespace HealBois
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            mushroomWard.transform.position = transform.position;
+            UpdatePosition();
+            UpdateRadius();
+        }
 
-            float nextRadius = GetNextRadius();
+        public override void OnExit()
+        {
+            base.OnExit();
+            UnityEngine.Object.Destroy(mushroomWard);
+        }
+
+        private void UpdatePosition()
+        {
+            mushroomWard.transform.position = transform.position;
+        }
+
+        private void UpdateRadius()
+        {
+            float nextRadius = GetRadius();
 
             if (nextRadius <= 0)
             {
@@ -60,13 +75,7 @@ namespace HealBois
             healingWard.Networkradius = nextRadius;
         }
 
-        public override void OnExit()
-        {
-            base.OnExit();
-            UnityEngine.Object.Destroy(mushroomWard);
-        }
-
-        private float GetNextRadius()
+        private float GetRadius()
         {
             return (-DECAY_RATE * fixedAge) + INITIAL_RADIUS;
         }
