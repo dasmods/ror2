@@ -8,6 +8,7 @@ namespace SlashCommands
 {
     public class CommandRunner
     {
+        // command names must not have any spaces
         private static Dictionary<string, ICommand> COMMANDS_BY_NAME = new Dictionary<string, ICommand>
         {
             ["echo"] = new Echo(),
