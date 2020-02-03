@@ -1,4 +1,6 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
+using UnityEngine;
 using RoR2;
 
 namespace SlashCommands
@@ -13,7 +15,15 @@ namespace SlashCommands
             {
                 if (CommandRunner.IsCommandStr(userChatMessage.text))
                 {
-                    CommandRunner.Call(userChatMessage.text);
+                    try
+                    {
+                        CommandRunner.Call(userChatMessage.text);
+                    }
+                    catch (Exception exception)
+                    {
+                        Chat.AddMessage($"Error running command: {exception.Message}");
+                        Debug.LogError(exception);
+                    }
                 }
 
                 onProcessed(userChatMessage);

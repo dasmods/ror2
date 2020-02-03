@@ -24,7 +24,7 @@ namespace SlashCommands
 
             Log(cmdName, args);
 
-            Run(cmd, cmdName, args);
+            cmd.Run(args);
         }
 
         private static void Validate(string rawString)
@@ -53,19 +53,6 @@ namespace SlashCommands
         {
             string argsStr = string.Join(",", args);
             Debug.LogWarning($"Running cmd {cmdName} with args: {argsStr}");
-        }
-
-        private static void Run(ICommand cmd, string cmdName, string[] args)
-        {
-            try
-            {
-                cmd.Run(args);
-            }
-            catch (Exception exception)
-            {
-                Chat.AddMessage($"Error running cmd {cmdName}: {exception.Message}");
-                throw exception;
-            }
         }
     }
 }
