@@ -36,6 +36,7 @@ namespace HealBois
             base.OnEnter();
             mushroomWard = CreateMushroomWard(transform.position);
         }
+
         protected override bool shouldStick
         {
             get
