@@ -7,11 +7,24 @@ namespace SlashCommands
     public class Commands
     {
         // command names must not have any spaces
-        public static Dictionary<string, ICommand> COMMANDS = new Dictionary<string, ICommand>
+        private static Dictionary<string, Func<ICommand>> COMMANDS = new Dictionary<string, Func<ICommand>>
         {
-            ["echo"] = new Echo(),
-            ["hittele"] = new ActivateTele()
+            ["echo"] = () => new Echo(),
+            ["hittele"] = () => new ActivateTele()
         };
+
+        public static ICommand GetCommand(string cmdName)
+        {
+            if (!COMMANDS.ContainsKey(cmdName))
+            {
+                string msg = $"Unsupported cmdName: {cmdName}";
+                Chat.AddMessage(msg);
+                throw new ArgumentException(msg);
+            }
+
+            Func<ICommand> createCmd = COMMANDS[cmdName];
+            return createCmd();
+        }
     }
 
     public interface ICommand
@@ -23,8 +36,7 @@ namespace SlashCommands
     {
         public void Run(params string[] args)
         {
-            string argsStr = string.Join(" ", args);
-            Chat.AddMessage($"echo: {argsStr}");
+            Chat.AddMessage(string.Join(" ", args));
         }
     }
 

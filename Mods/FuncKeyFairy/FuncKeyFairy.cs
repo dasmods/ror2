@@ -26,7 +26,12 @@ namespace FuncKeyFairy
 
         public void Update()
         {
+            if (PlayerCharacterMasterController.instances.Count == 0) {
+                return;
+            }
+
             GameObject player = PlayerCharacterMasterController.instances[0].master.GetBodyObject();
+
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 dropRandPickup(Run.instance.availableTier1DropList, player);

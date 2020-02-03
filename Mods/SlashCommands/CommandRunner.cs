@@ -7,38 +7,32 @@ namespace SlashCommands
 {
     public class CommandRunner
     {
-        public static void ParseAndRun(string rawString)
+        public static bool IsCommandStr(string rawString)
         {
-            // parse
-            var parsed = Parse(rawString);
+            return rawString.StartsWith("/");
+        }
+
+        public static void Call(string rawString)
+        {
+            Validate(rawString);
+
+            (string, string[]) parsed = Parse(rawString);
             string cmdName = parsed.Item1;
             string[] args = parsed.Item2;
 
-            // validate
-            if (!Commands.COMMANDS.ContainsKey(cmdName))
-            {
-                OnInvalidCmd(cmdName, args);
-            }
+            ICommand cmd = Commands.GetCommand(cmdName);
 
-            // run
-            ICommand cmd = Commands.COMMANDS[cmdName];
-            Debug.LogWarning($"Running cmd {cmdName} with args: {args}");
+            Log(cmdName, args);
 
-            try
-            {
-                cmd.Run(args);
-            }
-            catch (Exception exception)
-            {
-                Chat.AddMessage($"Error running cmd {cmdName}: {exception.Message}");
-            }
+            Run(cmd, cmdName, args);
         }
 
-        private static void OnInvalidCmd(string cmdName, string[] args)
+        private static void Validate(string rawString)
         {
-            string argsStr = string.Join(",", args);
-            Chat.AddMessage($"Invalid cmd: {cmdName}");
-            throw new ArgumentException($"Unsupported cmdName: {cmdName} (args: {argsStr})");
+            if (!IsCommandStr(rawString))
+            {
+                throw new ArgumentException($"Invalid slash command: {rawString}");
+            }
         }
 
         private static (string cmdName, string[] args) Parse(string rawString)
@@ -53,6 +47,25 @@ namespace SlashCommands
             }
 
             return (cmdName, args.ToArray());
+        }
+
+        private static void Log(string cmdName, string[] args)
+        {
+            string argsStr = string.Join(",", args);
+            Debug.LogWarning($"Running cmd {cmdName} with args: {argsStr}");
+        }
+
+        private static void Run(ICommand cmd, string cmdName, string[] args)
+        {
+            try
+            {
+                cmd.Run(args);
+            }
+            catch (Exception exception)
+            {
+                Chat.AddMessage($"Error running cmd {cmdName}: {exception.Message}");
+                throw exception;
+            }
         }
     }
 }
