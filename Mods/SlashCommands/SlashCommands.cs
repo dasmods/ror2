@@ -9,15 +9,16 @@ namespace SlashCommands
     [BepInPlugin("com.dasmods.slashcommands", "SlashCommands", "1.0")]
     public class SlashCommands : BaseUnityPlugin
     {
+
         public void Awake()
         {
             On.RoR2.Chat.UserChatMessage.OnProcessed += (onProcessed, userChatMessage) =>
             {
-                if (userChatMessage.text.StartsWith("/"))
+                if (CommandRunner.IsCommandStr(userChatMessage.text))
                 {
-                    Debug.Log($"received slash command: {userChatMessage.text}");
-                    CommandRunner.ParseAndRun(userChatMessage.text);
+                    CommandRunner.Call(userChatMessage.text);
                 }
+
                 onProcessed(userChatMessage);
             };
         }
