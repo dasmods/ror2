@@ -8,6 +8,8 @@ Mods for [Risk of Rain 2](https://store.steampowered.com/app/632360/Risk_of_Rain
 
 [HealBois](https://github.com/dasmods/ror2/tree/master/Mods/HealBois) - Make Engineer's mines more helpful than hurtful.
 
+[SlashCommands](https://github.com/dasmods/ror2/tree/master/Mods/SlashCommands) - Adds various /commands via chat.
+
 ## Workflow
 
 Commands are made using cake (C# Make), a cross platform build automation system. You must have Powershell installed on Windows.
