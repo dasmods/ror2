@@ -12,6 +12,8 @@ Mods for [Risk of Rain 2](https://store.steampowered.com/app/632360/Risk_of_Rain
 
 [QuickStart](https://github.com/dasmods/ror2/tree/master/Mods/QuickStart) - Skips the welcome screen.
 
+[ThreatOfThunder](https://github.com/dasmods/ror2/tree/master/Mods/ThreatOfThunder) - There's a likelihood of lightning.
+
 ## Workflow
 
 Commands are made using cake (C# Make), a cross platform build automation system. You must have Powershell installed on Windows.
