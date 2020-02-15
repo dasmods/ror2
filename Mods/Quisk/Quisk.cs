@@ -1,11 +1,11 @@
 ﻿using BepInEx;
 using RoR2.UI.MainMenu;
 
-namespace QuickStart
+namespace Quisk
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.dasmods.quickstart", "QuickStart", "1.0")]
-    public class QuickStart : BaseUnityPlugin
+    [BepInPlugin("com.dasmods.quickstart", "Quisk", "1.0")]
+    public class Quisk : BaseUnityPlugin
     {
         private bool loaded = false;
 
